@@ -1,0 +1,35 @@
+import tensorflow as tf
+import cv2
+import numpy as np
+
+# Load pre-trained model for object detection
+model = tf.saved_model.load("ssd_mobilenet_v2_coco/saved_model")
+
+def load_labels(label_path):
+    with open(label_path, 'r') as f:
+        labels = {int(key): value for key, value in enumerate(f.read().splitlines())}
+    return labels
+
+def detect_objects():
+    cap = cv2.VideoCapture(0)
+    while cap.isOpened():
+        ret, frame = cap.read()
+        input_tensor = tf.convert_to_tensor(frame)
+        input_tensor = input_tensor[tf.newaxis,...]
+
+        detections = model(input_tensor)
+
+        for detection in detections['detection_classes']:
+            confidence = detection['detection_scores']
+            if confidence > 0.5:
+                print("Alert: Intruder detected!")
+                # Additional logic like sending alerts
+
+        cv2.imshow('Home Security', frame)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+    
+    cap.release()
+    cv2.destroyAllWindows()
+
+detect_objects()

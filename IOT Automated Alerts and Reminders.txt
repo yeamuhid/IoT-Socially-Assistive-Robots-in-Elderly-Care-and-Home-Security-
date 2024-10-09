@@ -1,0 +1,12 @@
+import time
+import pyttsx3
+
+def send_reminder():
+    # Example: Remind the elderly to take their medicine
+    while True:
+        current_time = time.strftime("%H:%M")
+        if current_time == "12:00":  # Example time for medication reminder
+            speak_response("It's time to take your medicine.")
+        time.sleep(60)
+
+send_reminder()

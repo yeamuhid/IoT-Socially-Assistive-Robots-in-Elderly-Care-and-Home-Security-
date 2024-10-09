@@ -1,0 +1,34 @@
+import speech_recognition as sr
+import pyttsx3
+
+def listen_to_user():
+    recognizer = sr.Recognizer()
+    mic = sr.Microphone()
+    with mic as source:
+        print("Listening...")
+        recognizer.adjust_for_ambient_noise(source)
+        audio = recognizer.listen(source)
+        
+    try:
+        command = recognizer.recognize_google(audio)
+        print(f"User said: {command}")
+        return command.lower()
+    except sr.UnknownValueError:
+        print("Sorry, I didn't understand.")
+        return ""
+
+def speak_response(text):
+    engine = pyttsx3.init()
+    engine.say(text)
+    engine.runAndWait()
+
+# Example conversation
+speak_response("How can I assist you today?")
+command = listen_to_user()
+
+if "medicine" in command:
+    speak_response("It's time to take your medicine.")
+elif "security" in command:
+    speak_response("I will check if the doors are locked.")
+else:
+    speak_response("I am here if you need me.")

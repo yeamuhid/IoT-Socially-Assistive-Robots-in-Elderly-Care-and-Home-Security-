@@ -1,0 +1,16 @@
+# This depends on the specific robotic hardware.
+# Example pseudo-code for robot movement:
+class Robot:
+    def __init__(self):
+        pass
+
+    def move_forward(self):
+        print("Moving forward...")
+
+    def stop(self):
+        print("Stopping...")
+
+robot = Robot()
+robot.move_forward()
+time.sleep(2)
+robot.stop()
